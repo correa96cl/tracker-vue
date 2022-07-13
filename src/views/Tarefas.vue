@@ -29,6 +29,7 @@ export default defineComponent({
   },
    data (){
      return {
+       modoEscuroAtivo: false,
        tarefas: [] as ITarefa[],
        
      }
@@ -43,7 +44,7 @@ export default defineComponent({
        this.tarefas.push(tarefa);
      },
      trocarTema(modoEscuroAtivo: boolean){
-this.modoEscuroAtivo = modoEscuroAtivo
+      this.modoEscuroAtivo = modoEscuroAtivo
      }
    }
 
