@@ -18,7 +18,8 @@ Salvar
 
 import {defineComponent} from 'vue';
 import {useStore} from '@/store';
-import {ALTERA_PROJETO, ADICIONA_PROJETO} from '@/store/tipo-mutacoes'
+import {ALTERA_PROJETO, ADICIONA_PROJETO, NOTIFICAR} from '@/store/tipo-mutacoes'
+import {TipoNotificacao} from '@/interfaces/INotificacao'
 
 
 export default defineComponent({
@@ -50,6 +51,11 @@ this.store.commit(ALTERA_PROJETO, {
 
             }
             this.nomeDoProjeto = '';
+            this.store.commit(NOTIFICAR, {
+                titulo: 'Novo projeto foi salvado',
+                texto: 'Pronto',
+                tipo: TipoNotificacao.SUCESSO
+            })
             this.$router.push('/projetos')
         }
     },
