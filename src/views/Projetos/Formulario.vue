@@ -18,8 +18,10 @@ Salvar
 
 import {defineComponent} from 'vue';
 import {useStore} from '@/store';
-import {ALTERA_PROJETO, ADICIONA_PROJETO, NOTIFICAR} from '@/store/tipo-mutacoes'
+import {ALTERA_PROJETO, ADICIONA_PROJETO} from '@/store/tipo-mutacoes'
 import {TipoNotificacao} from '@/interfaces/INotificacao'
+import {notificacaoMixin} from '@/mixins/notificar'
+import useNotificador  from '@/hooks/notificador'
 
 
 export default defineComponent({
@@ -29,6 +31,7 @@ id: {
     type: String
 }
     },
+   
     mounted(){
 if (this.id){
     const projeto = this.store.state.projetos.find(proj => proj.id == this.id)
@@ -51,18 +54,17 @@ this.store.commit(ALTERA_PROJETO, {
 
             }
             this.nomeDoProjeto = '';
-            this.store.commit(NOTIFICAR, {
-                titulo: 'Novo projeto foi salvado',
-                texto: 'Pronto',
-                tipo: TipoNotificacao.SUCESSO
-            })
+            this.notificar(TipoNotificacao.SUCESSO, 'EXCELENTE', 'PROJETO FOI CADASTRADO COM SUCESSO')
+          
             this.$router.push('/projetos')
         }
     },
     setup(){
         const store = useStore()
+        const {notificar} = useNotificador()
         return {
-            store
+            store,
+            notificar
         }
     }
 })
