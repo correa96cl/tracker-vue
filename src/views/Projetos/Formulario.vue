@@ -22,6 +22,7 @@ import {ALTERA_PROJETO, ADICIONA_PROJETO} from '@/store/tipo-mutacoes'
 import {TipoNotificacao} from '@/interfaces/INotificacao'
 import {notificacaoMixin} from '@/mixins/notificar'
 import useNotificador  from '@/hooks/notificador'
+import {CADASTRAR_PROJETOS, ALTERAR_PROJETOS} from '@/store/tipo-acoes'
 
 
 export default defineComponent({
@@ -45,15 +46,20 @@ if (this.id){
     methods: {
         salvar (){
             if (this.id){
-this.store.commit(ALTERA_PROJETO, {
+this.store.dispatch(ALTERAR_PROJETOS, {
     id: this.id,
     nome: this.nomeDoProjeto
-})
+}).then(() => this.lidarComSucesso())
             }else {
-           this.store.commit(ADICIONA_PROJETO, this.nomeDoProjeto)
+           this.store.dispatch(CADASTRAR_PROJETOS, this.nomeDoProjeto).then(() => this.lidarComSucesso())
 
             }
-            this.nomeDoProjeto = '';
+
+
+            
+        },
+        lidarComSucesso(){
+              this.nomeDoProjeto = '';
             this.notificar(TipoNotificacao.SUCESSO, 'EXCELENTE', 'PROJETO FOI CADASTRADO COM SUCESSO')
           
             this.$router.push('/projetos')
