@@ -1,15 +1,17 @@
-import { INotificacao, TipoNotificacao } from "@/interfaces/INotificacao";
+import { INotificacao } from "@/interfaces/INotificacao";
 import IProjeto from "@/interfaces/IProjeto";
 import { InjectionKey } from "vue";
 import { createStore, Store, useStore as vuexUseStore } from "vuex";
-import { ALTERAR_PROJETOS, CADASTRAR_PROJETOS, ELIMINAR_PROJETOS, OBTER_PROJETOS } from "./tipo-acoes";
-import { ADICIONA_PROJETO, ALTERA_PROJETO, DEFINIR_PROJETO, EXCLUIR_PROJETO, NOTIFICAR } from "./tipo-mutacoes";
+import { ALTERAR_PROJETOS, CADASTRAR_PROJETOS, CADASTRAR_TAREFAS, ELIMINAR_PROJETOS, OBTER_PROJETOS, OBTER_TAREFAS } from "./tipo-acoes";
+import { ADICIONA_PROJETO, ADICIONA_TAREFAS, ALTERA_PROJETO, DEFINIR_TAREFAS, EXCLUIR_PROJETO, NOTIFICAR, DEFINIR_PROJETOS } from "./tipo-mutacoes";
 import http from '@/http'
+import ITarefa from "@/interfaces/ITarefa";
 
 
 interface Estado {
     projetos: IProjeto[],
-    notificacoes: INotificacao[]
+    notificacoes: INotificacao[],
+    tarefas: ITarefa[]
 }
 
 export const key: InjectionKey<Store<Estado>> = Symbol()
@@ -17,7 +19,8 @@ export const key: InjectionKey<Store<Estado>> = Symbol()
 export const store = createStore<Estado>({
     state: {
         projetos: [],
-        notificacoes: []
+        notificacoes: [],
+        tarefas: []
 
     },
     mutations: {
@@ -37,8 +40,11 @@ export const store = createStore<Estado>({
         [EXCLUIR_PROJETO](state, id: string) {
             state.projetos = state.projetos.filter(proj => proj.id != id)
         },
-        [DEFINIR_PROJETO](state, projetos: IProjeto[]) {
+        [DEFINIR_PROJETOS](state, projetos: IProjeto[]) {
             state.projetos = projetos
+        },
+        [DEFINIR_TAREFAS](state, tarefas: ITarefa[]) {
+            state.tarefas = tarefas
         },
         [NOTIFICAR](state, novaNotificacao: INotificacao) {
             novaNotificacao.id = new Date().getTime()
@@ -47,26 +53,37 @@ export const store = createStore<Estado>({
             setTimeout(() => {
                 state.notificacoes = state.notificacoes.filter(notificacao => notificacao.id != novaNotificacao.id)
             }, 3000)
-        }
+        }, [ADICIONA_TAREFAS](state, tarefa: ITarefa) {
+            state.tarefas.push(tarefa)
+        },
     },
     actions: {
         [OBTER_PROJETOS]({ commit }) {
             http.get('projetos')
-                .then(resposta => commit(DEFINIR_PROJETO, resposta.data))
+                .then(resposta => commit(DEFINIR_PROJETOS, resposta.data))
         },
-            [CADASTRAR_PROJETOS] (contexto, nomeDoProjeto: string){
-                return http.post('/projetos', {
-                    nome: nomeDoProjeto
-                })
-            },
-            [ALTERAR_PROJETOS] (contexto, projeto: IProjeto){
-                return http.put(`/projetos/${projeto.id}`, projeto)
-            },
-            [ELIMINAR_PROJETOS] ({commit}, id: string){
-                return http.delete(`/projetos/${id}`).then(() => commit(EXCLUIR_PROJETO, id))
-            }
-        }
+        [CADASTRAR_PROJETOS](contexto, nomeDoProjeto: string) {
+            return http.post('/projetos', {
+                nome: nomeDoProjeto
+            })
+        },
+        [ALTERAR_PROJETOS](contexto, projeto: IProjeto) {
+            return http.put(`/projetos/${projeto.id}`, projeto)
+        },
+        [ELIMINAR_PROJETOS]({ commit }, id: string) {
+            return http.delete(`/projetos/${id}`).then(() => commit(EXCLUIR_PROJETO, id))
+        },
+        [OBTER_TAREFAS]({ commit }) {
+            http.get('tarefas')
+                .then(response => commit(DEFINIR_TAREFAS, response.data))
+        },
+        [CADASTRAR_TAREFAS]({ commit }, tarefa: ITarefa) {
+            return http.post('/tarefas',
+                tarefa
+            ).then(resposta => commit(ADICIONA_TAREFAS, resposta.data))
+        },
     }
+}
 )
 
 export function useStore(): Store<Estado> {
