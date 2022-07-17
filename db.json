@@ -2,36 +2,55 @@
   "projetos": [
     {
       "id": 1,
-      "duracaoEmSegundos": 120,
-      "descricao": "Configuração do ambiente2",
-      "projeto": {
-        "id": 1,
-        "nome": "Tracker"
-      }
+      "nome": "dc dc cd"
     },
     {
       "id": 2,
-      "nome": "ahjkajkhjkjkajka"
+      "nome": "Mierda"
     },
     {
       "id": 3,
-      "nome": "Prova2"
+      "nome": "Vieja mierrda"
     },
     {
-      "nome": "Estudando Vue JS",
-      "id": 4
+      "id": 4,
+      "nome": "Vue jS"
     },
     {
+      "nome": {
+        "duracaoEmSegundos": 1,
+        "descricao": "",
+        "projeto": {
+          "nome": "232323",
+          "id": 7
+        }
+      },
       "id": 5,
-      "nome": "oaoaoaooa"
+      "descricao": "ewdewdewd"
     },
     {
+      "nome": {
+        "duracaoEmSegundos": 1,
+        "descricao": ""
+      },
       "id": 6,
-      "nome": "Typescript32"
+      "descricao": "erd3erwdewd"
     },
     {
-      "nome": "232323",
-      "id": 7
+      "nome": {
+        "duracaoEmSegundos": 4,
+        "descricao": "deeedede",
+        "projeto": {
+          "id": 3,
+          "nome": "Prova2"
+        }
+      },
+      "id": 7,
+      "descricao": "Porrraaaa"
+    },
+    {
+      "id": 8,
+      "nome": "32323"
     }
   ],
   "tarefas": [

@@ -1,21 +1,20 @@
 <template>
-<div class="projetos">
-<h1 class="title">Projetos</h1>
-<router-view></router-view>
-</div>
+  <div class="projetos">
+    <h1 class="title">Projetos</h1>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue'
+import { defineComponent } from "vue";
 
 export default defineComponent({
-    name: 'Projetos'
-})
-
+  name: "Projetos",
+});
 </script>
 
 <style scoped>
-.projetos{
-    padding: 1.55 rem;
+.projetos {
+  padding: 1.55 rem;
 }
 </style>

@@ -1,63 +1,59 @@
-<template> 
-
-<header>
-<h1>
-<img src="../assets/logo.png"/>
-
-
-</h1>
-<button class="button" @click="alterarTema">
-{{textoBotao}}
-</button>
-<nav class="panel mt-5">
-<ul>
-<li>
-<router-link to="/">
-<i class="fas fa-tasks"></i>
-Tarefas
-</router-link>
-</li>
-<li>
-<router-link to="/projetos">
-<i class="fas fa-project-diagram"></i>
-Projetos
-</router-link>
-</li>
-</ul>
-</nav>
-</header>
+<template>
+  <header>
+    <h1>
+      <img src="../assets/logo.png" />
+    </h1>
+    <button class="button" @click="alterarTema">
+      {{ textoBotao }}
+    </button>
+    <nav class="panel mt-5">
+      <ul>
+        <li>
+          <router-link to="/">
+            <i class="fas fa-tasks"></i>
+            Tarefas
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/projetos">
+            <i class="fas fa-project-diagram"></i>
+            Projetos
+          </router-link>
+        </li>
+      </ul>
+    </nav>
+  </header>
 </template>
 
-<script lang="ts"> 
-import {defineComponent} from 'vue';
+<script lang="ts">
+import { defineComponent } from "vue";
 
 export default defineComponent({
-    name: 'BarraLateral',
-    emits: ['aoTemaAlterado'],
-    data (){
-      return {
-        modoEscuroAtivo: false
+  name: "BarraLateral",
+  emits: ["aoTemaAlterado"],
+  data() {
+    return {
+      modoEscuroAtivo: false,
+    };
+  },
+  computed: {
+    textoBotao() {
+      if (this.modoEscuroAtivo) {
+        return "Desativar modo escuro";
       }
+      return "Ativar modo escuro";
     },
-    computed: {
-textoBotao(){
-  if (this.modoEscuroAtivo){
-    return 'Desativar modo escuro'
-  }
-  return 'Ativar modo escuro'
-}
+  },
+  methods: {
+    alterarTema() {
+      this.modoEscuroAtivo = !this.modoEscuroAtivo;
+      this.$emit("aoTemaAlterado", this.modoEscuroAtivo);
     },
-    methods: {
-      alterarTema(){
-        this.modoEscuroAtivo = !this.modoEscuroAtivo
-this.$emit('aoTemaAlterado', this.modoEscuroAtivo);
-      }
-    }
-})
+  },
+});
 </script>
 
-
-<style scoped> 
+<style scoped>
 header {
   padding: 1rem;
   background: #0d3b66;
@@ -73,15 +69,15 @@ header {
 }
 
 .panel li {
-    margin: 8px 0;
+  margin: 8px 0;
 }
 .link {
-    color: #fff;
+  color: #fff;
 }
 .link:hover {
-    color: #FAF0CA;
+  color: #faf0ca;
 }
 .link.router-link-active {
-    color: #FAF0CA;
+  color: #faf0ca;
 }
 </style>
